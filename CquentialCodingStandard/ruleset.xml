@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<ruleset xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" name="C-quential Coding Standard" xsi:noNamespaceSchemaLocation="../vendor/squizlabs/php_codesniffer/phpcs.xsd">
+    <description>Additional rules for PHPCS by C-quential B.V.</description>
+</ruleset>
