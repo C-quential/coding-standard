@@ -12,9 +12,9 @@ use ReflectionClass;
 
 class TestCase extends BaseTestCase
 {
-    protected function runSniff(string $file, Sniff $sniff, bool $fix = false) {
+    protected function runSniff(string $file, Sniff $sniff): LocalFile {
         $phpCS = new Runner();
-        $phpCS->config = new Config();
+        $phpCS->config = new Config(['']);
         $phpCS->init();
 
         $phpCS->ruleset->sniffs = [$sniff::class => $sniff];

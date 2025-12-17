@@ -12,6 +12,26 @@ use PHP_CodeSniffer\Standards\Squiz\Sniffs\Strings\DoubleQuoteUsageSniff;
  */
 class UnneededDoubleQuoteUsageSniff extends DoubleQuoteUsageSniff
 {
+    private const ESCAPE_CHARS = [
+        '\0',
+        '\1',
+        '\2',
+        '\3',
+        '\4',
+        '\5',
+        '\6',
+        '\7',
+        '\n',
+        '\r',
+        '\f',
+        '\t',
+        '\v',
+        '\x',
+        '\b',
+        '\e',
+        '\u',
+    ];
+
     /**
      * Processes this test, when one of its tokens is encountered.
      *
@@ -21,7 +41,7 @@ class UnneededDoubleQuoteUsageSniff extends DoubleQuoteUsageSniff
      *
      * @return int
      */
-    public function process(File $phpcsFile, $stackPtr)
+    public function process(File $phpcsFile, int $stackPtr)
     {
         $tokens = $phpcsFile->getTokens();
 
@@ -37,8 +57,7 @@ class UnneededDoubleQuoteUsageSniff extends DoubleQuoteUsageSniff
 
         $i = ($stackPtr + 1);
         if (isset($tokens[$i]) === true) {
-            while (
-                $i < $phpcsFile->numTokens
+            while ($i < $phpcsFile->numTokens
                 && $tokens[$i]['code'] === $tokens[$stackPtr]['code']
             ) {
                 if (isset($tokens[$i]['orig_content']) === true) {
@@ -69,29 +88,9 @@ class UnneededDoubleQuoteUsageSniff extends DoubleQuoteUsageSniff
             }
 
             return $skipTo;
-        }//end if
+        }
 
-        $allowedChars = [
-            '\0',
-            '\1',
-            '\2',
-            '\3',
-            '\4',
-            '\5',
-            '\6',
-            '\7',
-            '\n',
-            '\r',
-            '\f',
-            '\t',
-            '\v',
-            '\x',
-            '\b',
-            '\e',
-            '\u',
-        ];
-
-        foreach ($allowedChars as $testChar) {
+        foreach (self::ESCAPE_CHARS as $testChar) {
             if (strpos($workingString, $testChar) !== false) {
                 return $skipTo;
             }
